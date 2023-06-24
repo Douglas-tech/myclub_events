@@ -1,0 +1,81 @@
+.page  {color: #333;}
+body {
+    margin: 1;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: rgb(245, 245, 240);
+    color: #333;
+  }
+  title {
+    background-color: rgb(20, 230, 45);
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .btn {
+    background-color: rgb(20, 230, 45);
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: #050505;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+  }
+  
+  section,
+  aside {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+  
+  footer {
+    background-color: rgb(20, 230, 45);
+    text-align: center;
+    padding: 20px;
+  }
+  
+  h1,
+  h2,
+  h3 {
+    margin-top: 0;
+    font-weight: bold;
+    color: rgb(20, 230, 45);
+  }
+  
+  ul {
+    list-style: none;
+    margin-right: 10px;
+    position: relative;
+    margin: auto;
+    padding: 1;
+  }
+  
+  li {
+    margin-bottom: 5px;
+    margin-right: 10px;
+    position: relative;
+  }
+  
+  a {
+    color: #00ced1;
+    text-decoration: none;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
