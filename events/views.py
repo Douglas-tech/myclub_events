@@ -20,6 +20,7 @@ from django.contrib import messages
 # Create your views here.
 # generate pdf views
 def venue_pdf(request):
+    """venue_pdf(request): Generates a PDF document containing a list of venues."""
     buf = io.BytesIO()
     c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
     textob = c.beginText()
@@ -48,6 +49,7 @@ def venue_pdf(request):
 
 
 def venue_csv(request):
+    """venue_csv(request): Generates a CSV file containing venue details."""
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=venues.csv'
     # create a csv writer
@@ -65,6 +67,7 @@ def venue_csv(request):
 
 # generate text file list
 def venue_text(request):
+    """venue_text(request): Generates a plain text file containing venue details."""
     response = HttpResponse(content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename=venues.txt'
     # designate the model
@@ -79,6 +82,7 @@ def venue_text(request):
 
 
 def add_venue(request):
+    """add_venue(request): Handles the addition of a new venue to the system."""
     submitted = False
     if request.method == "POST":
         form = VenueForm(request.POST, request.FILES)
@@ -97,6 +101,7 @@ def add_venue(request):
 
 
 def add_event(request):
+    """add_event(request): Handles the addition of a new event to the system."""
     submitted = False
     if request.method == "POST":
         if request.user.is_superuser:
@@ -125,6 +130,7 @@ def add_event(request):
 
 
 def list_venues(request):
+    """list_venues(request): Retrieves and displays a list of venues."""
     venue_list = Venue.objects.all()
     # set up pagination
     p = Paginator(Venue.objects.all(), 4)
@@ -137,6 +143,7 @@ def list_venues(request):
 
 
 def show_venue(request, venue_id):
+    """show_venue(request, venue_id): Retrieves and displays details of a specific venue."""
     venue = Venue.objects.get(pk=venue_id)
     venue_owner = User.objects.get(pk=venue.owner)
     return render(request, 'events/show_venue.html',
@@ -144,6 +151,7 @@ def show_venue(request, venue_id):
 
 
 def update_venue(request, venue_id):
+    """update_venue(request, venue_id): Handles the updating of venue information."""
     venue = Venue.objects.get(pk=venue_id)
     form = VenueForm(request.POST or None, instance=venue)
     if form.is_valid():
@@ -154,6 +162,7 @@ def update_venue(request, venue_id):
 
 
 def update_event(request, event_id):
+    """update_event(request, event_id): Handles the updating of event information."""
     event = Event.objects.get(pk=event_id)
     if request.user.is_superuser:
         form = EventFormAdmin(request.POST or None, instance=event)
@@ -169,6 +178,7 @@ def update_event(request, event_id):
 
 # delete a venue
 def delete_venue(request, venue_id):
+    """delete_venue(request, venue_id): Deletes a venue from the system."""
     venue = Venue.objects.get(pk=venue_id)
     venue.delete()
     return redirect('list-venues')
@@ -176,6 +186,7 @@ def delete_venue(request, venue_id):
 
 # delete an event
 def delete_event(request, event_id):
+    """delete_event(request, event_id): Deletes an event from the system."""
     event = Event.objects.get(pk=event_id)
     if request.user == event.manager:
         event.delete()
@@ -187,6 +198,7 @@ def delete_event(request, event_id):
 
 
 def my_events(request):
+    """my_events(request): Retrieves and displays events that the current user is attending."""
     if request.user.is_authenticated:
         me = request.user.id
         events = Event.objects.filter(attendees=me)
@@ -199,6 +211,7 @@ def my_events(request):
 
 
 def search_venues(request):
+    """search_venues(request): Searches for venues based on user input."""
     if request.method == 'POST':
         searched = request.POST['searched']
         venues = Venue.objects.filter(name__contains=searched)
@@ -209,6 +222,7 @@ def search_venues(request):
 
 
 def search_events(request):
+    """search_events(request): Searches for events based on user input."""
     if request.method == 'POST':
         searched = request.POST['searched']
         events = Event.objects.filter(description__contains=searched)
@@ -219,12 +233,15 @@ def search_events(request):
 
 
 def all_events(request):
+    """all_events(request): Retrieves and displays a list of all events."""
     events_list = Event.objects.all().order_by('name')
     return render(request, 'events/events_list.html',
                   {'events_list': events_list})
 
 
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
+    """home(request, year, month): Renders the home page of the application with a calendar
+    view of events for the specified year and month."""
     name = ""
     month = month.capitalize()
     # convert month from name to number
