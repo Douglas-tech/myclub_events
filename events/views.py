@@ -242,7 +242,12 @@ def all_events(request):
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
     """home(request, year, month): Renders the home page of the application with a calendar
     view of events for the specified year and month."""
-    name = ""
+
+    # Check if the user is logged in before accessing the user's name
+    if request.user.is_authenticated:
+        name = request.user.first_name + ' ' + request.user.last_name
+    else:
+        name = ""
     month = month.capitalize()
     # convert month from name to number
     month_number = list(calendar.month_name).index(month)
